@@ -44,11 +44,11 @@ func NewTerragruntHCLProvider(ctx *config.ProjectContext, includePastResources b
 }
 
 func (p *TerragruntHCLProvider) Type() string {
-	return "terragrunt_hcl"
+	return "terragrunt_dir"
 }
 
 func (p *TerragruntHCLProvider) DisplayType() string {
-	return "Terragrunt directory (HCL)"
+	return "Terragrunt directory"
 }
 
 func (p *TerragruntHCLProvider) AddMetadata(metadata *schema.ProjectMetadata) {

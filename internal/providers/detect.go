@@ -54,20 +54,13 @@ func Detect(ctx *config.ProjectContext, includePastResources bool) (schema.Provi
 	}
 
 	switch ctx.ProjectConfig.ProjectType {
-	case "terraform_hcl":
-		var h schema.Provider
-		var providerErr error
-
-		if isTerragruntNestedDir(path, 5) {
-			h, providerErr = terraform.NewTerragruntHCLProvider(ctx, includePastResources), nil
-		} else {
-			h, providerErr = terraform.NewHCLProvider(
-				ctx,
-				terraform.NewPlanJSONProvider(ctx, includePastResources),
-				hcl.OptionWithSpinner(ctx.RunContext.NewSpinner),
-				hcl.OptionWithWarningFunc(ctx.RunContext.NewWarningWriter()),
-			)
-		}
+	case "terraform_dir":
+		h, providerErr := terraform.NewHCLProvider(
+			ctx,
+			terraform.NewPlanJSONProvider(ctx, includePastResources),
+			hcl.OptionWithSpinner(ctx.RunContext.NewSpinner),
+			hcl.OptionWithWarningFunc(ctx.RunContext.NewWarningWriter()),
+		)
 
 		if providerErr != nil {
 			return nil, providerErr
@@ -78,13 +71,20 @@ func Detect(ctx *config.ProjectContext, includePastResources bool) (schema.Provi
 		}
 
 		return h, nil
+	case "terragrunt_dir":
+		h := terraform.NewTerragruntHCLProvider(ctx, includePastResources)
+		if err := validateProjectForHCL(ctx, path); err != nil {
+			return h, err
+		}
+
+		return h, nil
 	case "terraform_plan_json":
 		return terraform.NewPlanJSONProvider(ctx, includePastResources), nil
 	case "terraform_plan":
 		return terraform.NewPlanProvider(ctx, includePastResources), nil
-	case "terraform_dir":
+	case "terraform_cli":
 		return terraform.NewDirProvider(ctx, includePastResources), nil
-	case "terragrunt_dir":
+	case "terragrunt_cli":
 		return terraform.NewTerragruntProvider(ctx, includePastResources), nil
 	case "terraform_state_json":
 		return terraform.NewStateJSONProvider(ctx, includePastResources), nil
@@ -113,11 +113,11 @@ func autoDetectProjectType(path string) string {
 	}
 
 	if isTerragruntNestedDir(path, 5) {
-		return "terraform_hcl"
+		return "terragrunt_dir"
 	}
 
 	if isTerraformDir(path) {
-		return "terraform_hcl"
+		return "terraform_dir"
 	}
 
 	return ""
@@ -138,7 +138,7 @@ func validateProjectForHCL(ctx *config.ProjectContext, path string) error {
 
 	if ctx.ProjectConfig.TerraformUseState {
 		return &ValidationError{
-			err: "terraform-use-state is incompatible with Terraform HCL parsing\n\nRun again with--project-type=terraform_dir.",
+			err: "terraform-use-state is incompatible with Terraform HCL parsing\n\nRun again with--project-type=terraform_cli.",
 		}
 	}
 

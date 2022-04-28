@@ -43,19 +43,19 @@ func DefaultOptions() *GoldenFileOptions {
 }
 
 func GoldenFileCommandTest(t *testing.T, testName string, args []string, testOptions *GoldenFileOptions, ctxOptions ...func(ctx *config.RunContext)) {
-	if testOptions == nil || !testOptions.OnlyRunTerraformDir {
-		t.Run("HCL", func(t *testing.T) {
+	if testOptions == nil || !testOptions.OnlyRunTerraformInvoker {
+		t.Run("Terraform HCL", func(t *testing.T) {
 			goldenFileCommandTest(t, testName, args, testOptions, true, ctxOptions...)
 		})
 	}
 
-	if testOptions != nil && (testOptions.RunTerraformDir || testOptions.OnlyRunTerraformDir) {
-		t.Run("Terraform Dir", func(t *testing.T) {
-			tfDirArgs := make([]string, len(args)+2)
-			copy(tfDirArgs, args)
-			tfDirArgs[len(args)] = "--project-type"
-			tfDirArgs[len(args)+1] = "terraform_dir"
-			goldenFileCommandTest(t, testName, tfDirArgs, testOptions, false, ctxOptions...)
+	if testOptions != nil && (testOptions.RunTerraformInvoker || testOptions.OnlyRunTerraformInvoker) {
+		t.Run("Terraform CLI", func(t *testing.T) {
+			tfInvoker := make([]string, len(args)+2)
+			copy(tfInvoker, args)
+			tfInvoker[len(args)] = "--project-type"
+			tfInvoker[len(args)+1] = "terraform_cli"
+			goldenFileCommandTest(t, testName, tfInvoker, testOptions, false, ctxOptions...)
 		})
 	}
 }

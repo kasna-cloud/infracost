@@ -41,7 +41,7 @@ func TestBreakdownTerraformPlanJSON(t *testing.T) {
 }
 
 func TestBreakdownTerraformDirectory(t *testing.T) {
-	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", "../../examples/terraform"}, &GoldenFileOptions{RunTerraformDir: true})
+	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", "../../examples/terraform"}, &GoldenFileOptions{RunTerraformInvoker: true})
 }
 
 func TestBreakdownTerraformDirectoryWithDefaultVarFiles(t *testing.T) {
@@ -56,7 +56,7 @@ func TestBreakdownTerraformDirectoryWithDefaultVarFiles(t *testing.T) {
 				"--path", dir,
 				"--terraform-plan-flags", "-var-file=input.tfvars -var=block2_ebs_volume_size=2000 -var block2_volume_type=io1",
 			},
-			&GoldenFileOptions{OnlyRunTerraformDir: true},
+			&GoldenFileOptions{OnlyRunTerraformInvoker: true},
 		)
 	})
 
@@ -107,7 +107,7 @@ func TestBreakdownTerraformDirectoryWithDefaultVarFiles(t *testing.T) {
 
 func TestBreakdownTerraformDirectoryWithRecursiveModules(t *testing.T) {
 	dir := path.Join("./testdata", testutil.CalcGoldenFileTestdataDirName())
-	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", dir}, &GoldenFileOptions{RunTerraformDir: true})
+	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", dir}, &GoldenFileOptions{RunTerraformInvoker: true})
 }
 
 func TestBreakdownTerraformFieldsAll(t *testing.T) {
@@ -191,7 +191,7 @@ func TestBreakdownInvalidPath(t *testing.T) {
 }
 
 func TestBreakdownPlanError(t *testing.T) {
-	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", "../..//examples/terraform", "--project-type=terraform_dir", "--terraform-plan-flags", "-var-file=invalid"}, nil, func(ctx *config.RunContext) {
+	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", "../..//examples/terraform", "--project-type=terraform_cli", "--terraform-plan-flags", "-var-file=invalid"}, nil, func(ctx *config.RunContext) {
 		ctx.Config.DisableHCLParsing = true
 	})
 }
@@ -263,7 +263,7 @@ func TestBreakdownInitFlagsError(t *testing.T) {
 			"--path",
 			path.Join("./testdata", testutil.CalcGoldenFileTestdataDirName()),
 			"--project-type",
-			"terraform_dir",
+			"terraform_cli",
 			"--terraform-init-flags",
 			"-plugin-dir=does/not/exist",
 		},

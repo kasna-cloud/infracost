@@ -52,9 +52,9 @@ type hclRunDiff struct {
 var validRunFormats = []string{"json", "table", "html"}
 
 func addRunFlags(cmd *cobra.Command) {
-	cmd.Flags().String("project-type", "", "Override the project type: terraform_hcl, terraform_plan_json, terraform_plan, terraform_dir, terragrunt_dir, terraform_state_json")
-	cmd.Flags().StringSlice("terraform-var-file", nil, "Load variable files, similar to Terraform’s -var-file flag. Applicable with terraform_hcl project type")
-	cmd.Flags().StringSlice("terraform-var", nil, "Set value for an input variable, similar to Terraform’s -var flag. Applicable with terraform_hcl project type")
+	cmd.Flags().String("project-type", "", "Override the project type: terraform_dir, terragrunt_dir, terraform_plan_json, terraform_plan, terraform_cli, terragrunt_cli, terraform_state_json")
+	cmd.Flags().StringSlice("terraform-var-file", nil, "Load variable files, similar to Terraform's -var-file flag. Applicable with terraform_hcl project type")
+	cmd.Flags().StringSlice("terraform-var", nil, "Set value for an input variable, similar to Terraform's -var flag. Applicable with terraform_hcl project type")
 	cmd.Flags().StringP("path", "p", "", "Path to the Terraform directory or JSON/plan file")
 
 	cmd.Flags().String("compare-to", "", "Path to Infracost JSON file to compare against, cannot be used with table and html formats")
@@ -62,9 +62,9 @@ func addRunFlags(cmd *cobra.Command) {
 	cmd.Flags().String("config-file", "", "Path to Infracost config file. Cannot be used with path, terraform* or usage-file flags")
 	cmd.Flags().String("usage-file", "", "Path to Infracost usage file that specifies values for usage-based resources")
 
-	cmd.Flags().String("terraform-plan-flags", "", "Flags to pass to 'terraform plan'. Applicable with terraform_dir project type")
-	cmd.Flags().String("terraform-init-flags", "", "Flags to pass to 'terraform init'. Applicable with terraform_dir project type")
-	cmd.Flags().String("terraform-workspace", "", "Terraform workspace to use. Applicable with terraform_dir project type")
+	cmd.Flags().String("terraform-plan-flags", "", "Flags to pass to 'terraform plan'. Applicable with terraform_cli project type")
+	cmd.Flags().String("terraform-init-flags", "", "Flags to pass to 'terraform init'. Applicable with terraform_cli project type")
+	cmd.Flags().String("terraform-workspace", "", "Terraform workspace to use. Applicable with terraform_cli project type")
 
 	cmd.Flags().Bool("no-cache", false, "Don't attempt to cache Terraform plans")
 
