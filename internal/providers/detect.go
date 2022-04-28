@@ -80,7 +80,7 @@ func Detect(ctx *config.ProjectContext, includePastResources bool) (schema.Provi
 		return h, nil
 	case "terraform_plan_json":
 		return terraform.NewPlanJSONProvider(ctx, includePastResources), nil
-	case "terraform_plan":
+	case "terraform_plan_binary":
 		return terraform.NewPlanProvider(ctx, includePastResources), nil
 	case "terraform_cli":
 		return terraform.NewDirProvider(ctx, includePastResources), nil
@@ -109,7 +109,7 @@ func autoDetectProjectType(path string) string {
 	}
 
 	if isTerraformPlan(path) {
-		return "terraform_plan"
+		return "terraform_plan_binary"
 	}
 
 	if isTerragruntNestedDir(path, 5) {
