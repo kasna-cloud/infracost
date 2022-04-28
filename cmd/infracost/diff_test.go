@@ -61,7 +61,7 @@ func TestDiffWithCompareTo(t *testing.T) {
 			"--compare-to",
 			path.Join(dir, "prior.json"),
 		}, &GoldenFileOptions{
-			RunTerraformInvoker: true,
+			RunTerraformCLI: true,
 		})
 }
 

@@ -38,7 +38,7 @@ func TestHCLProviderAlias(t *testing.T) {
 			"breakdown",
 			"--path", path.Join("./testdata", testutil.CalcGoldenFileTestdataDirName()),
 		},
-		&GoldenFileOptions{RunTerraformInvoker: true},
+		&GoldenFileOptions{RunTerraformCLI: true},
 	)
 }
 
@@ -50,7 +50,7 @@ func TestHCLModuleOutputCounts(t *testing.T) {
 			"breakdown",
 			"--path", path.Join("./testdata", testutil.CalcGoldenFileTestdataDirName()),
 		},
-		&GoldenFileOptions{RunTerraformInvoker: true},
+		&GoldenFileOptions{RunTerraformCLI: true},
 	)
 }
 

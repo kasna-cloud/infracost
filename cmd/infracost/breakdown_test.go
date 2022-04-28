@@ -41,7 +41,7 @@ func TestBreakdownTerraformPlanJSON(t *testing.T) {
 }
 
 func TestBreakdownTerraformDirectory(t *testing.T) {
-	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", "../../examples/terraform"}, &GoldenFileOptions{RunTerraformInvoker: true})
+	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", "../../examples/terraform"}, &GoldenFileOptions{RunTerraformCLI: true})
 }
 
 func TestBreakdownTerraformDirectoryWithDefaultVarFiles(t *testing.T) {
@@ -56,7 +56,7 @@ func TestBreakdownTerraformDirectoryWithDefaultVarFiles(t *testing.T) {
 				"--path", dir,
 				"--terraform-plan-flags", "-var-file=input.tfvars -var=block2_ebs_volume_size=2000 -var block2_volume_type=io1",
 			},
-			&GoldenFileOptions{OnlyRunTerraformInvoker: true},
+			&GoldenFileOptions{OnlyRunTerraformCLI: true},
 		)
 	})
 
@@ -107,7 +107,7 @@ func TestBreakdownTerraformDirectoryWithDefaultVarFiles(t *testing.T) {
 
 func TestBreakdownTerraformDirectoryWithRecursiveModules(t *testing.T) {
 	dir := path.Join("./testdata", testutil.CalcGoldenFileTestdataDirName())
-	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", dir}, &GoldenFileOptions{RunTerraformInvoker: true})
+	GoldenFileCommandTest(t, testutil.CalcGoldenFileTestdataDirName(), []string{"breakdown", "--path", dir}, &GoldenFileOptions{RunTerraformCLI: true})
 }
 
 func TestBreakdownTerraformFieldsAll(t *testing.T) {
