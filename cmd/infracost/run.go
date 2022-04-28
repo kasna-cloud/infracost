@@ -51,6 +51,17 @@ type hclRunDiff struct {
 
 var validRunFormats = []string{"json", "table", "html"}
 
+var validProjectTypes = []string{
+	"terraform_dir",
+	"terragrunt_dir",
+	"terraform_plan_json",
+	"terraform_plan_binary",
+	"terraform_cli",
+	"terragrunt_cli",
+	"terraform_state_json",
+	"cloudformation",
+}
+
 func addRunFlags(cmd *cobra.Command) {
 	cmd.Flags().String("project-type", "", "Override the project type: terraform_dir, terragrunt_dir, terraform_plan_json, terraform_plan_binary, terraform_cli, terragrunt_cli, terraform_state_json")
 	cmd.Flags().StringSlice("terraform-var-file", nil, "Load variable files, similar to Terraform's -var-file flag. Applicable with terragrunt_dir project type")
@@ -725,7 +736,13 @@ func loadRunFlags(cfg *config.Config, cmd *cobra.Command) error {
 
 	if hasProjectFlags {
 		projectCfg.Path, _ = cmd.Flags().GetString("path")
+
 		projectCfg.ProjectType, _ = cmd.Flags().GetString("project-type")
+		if projectCfg.ProjectType != "" && !contains(validProjectTypes, projectCfg.ProjectType) {
+			ui.PrintUsage(cmd)
+			return fmt.Errorf("--project-type only supports %s", strings.Join(validProjectTypes, ", "))
+		}
+
 		projectCfg.TerraformVarFiles, _ = cmd.Flags().GetStringSlice("terraform-var-file")
 		tfVars, _ := cmd.Flags().GetStringSlice("terraform-var")
 		projectCfg.TerraformVars = tfVarsToMap(tfVars)
