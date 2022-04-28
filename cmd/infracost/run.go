@@ -53,8 +53,8 @@ var validRunFormats = []string{"json", "table", "html"}
 
 func addRunFlags(cmd *cobra.Command) {
 	cmd.Flags().String("project-type", "", "Override the project type: terraform_dir, terragrunt_dir, terraform_plan_json, terraform_plan_binary, terraform_cli, terragrunt_cli, terraform_state_json")
-	cmd.Flags().StringSlice("terraform-var-file", nil, "Load variable files, similar to Terraform's -var-file flag. Applicable with terraform_hcl project type")
-	cmd.Flags().StringSlice("terraform-var", nil, "Set value for an input variable, similar to Terraform's -var flag. Applicable with terraform_hcl project type")
+	cmd.Flags().StringSlice("terraform-var-file", nil, "Load variable files, similar to Terraform's -var-file flag. Applicable with terragrunt_dir project type")
+	cmd.Flags().StringSlice("terraform-var", nil, "Set value for an input variable, similar to Terraform's -var flag. Applicable with terragrunt_dir project type")
 	cmd.Flags().StringP("path", "p", "", "Path to the Terraform directory or JSON/plan file")
 
 	cmd.Flags().String("compare-to", "", "Path to Infracost JSON file to compare against, cannot be used with table and html formats")

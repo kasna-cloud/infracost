@@ -28,8 +28,8 @@ FLAGS
       --sync-usage-file               Sync usage-file with missing resources, needs usage-file too (experimental)
       --terraform-init-flags string   Flags to pass to 'terraform init'. Applicable with terraform_cli project type
       --terraform-plan-flags string   Flags to pass to 'terraform plan'. Applicable with terraform_cli project type
-      --terraform-var strings         Set value for an input variable, similar to Terraform's -var flag. Applicable with terraform_hcl project type
-      --terraform-var-file strings    Load variable files, similar to Terraform's -var-file flag. Applicable with terraform_hcl project type
+      --terraform-var strings         Set value for an input variable, similar to Terraform's -var flag. Applicable with terragrunt_dir project type
+      --terraform-var-file strings    Load variable files, similar to Terraform's -var-file flag. Applicable with terragrunt_dir project type
       --terraform-workspace string    Terraform workspace to use. Applicable with terraform_cli project type
       --usage-file string             Path to Infracost usage file that specifies values for usage-based resources
 

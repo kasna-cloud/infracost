@@ -20,7 +20,7 @@ type Project struct {
 	// Path to the Terraform directory or JSON/plan file.
 	// A path can be repeated with different parameters, e.g. for multiple workspaces.
 	Path string `yaml:"path,omitempty" ignored:"true"`
-	// ProjectType is used to explicitly specify the type of the project to detect. It can be terraform_hcl, terraform_plan_json,
+	// ProjectType is used to explicitly specify the type of the project to detect. It can be terragrunt_dir, terraform_plan_json,
 	// terraform_plan, terraform_dir, terragrunt_dir, or terraform_state_json.
 	ProjectType string `yaml:"project_type,omitempty"`
 	// TerraformVarFiles is the number of var files that are needed to run an TerraformParseHCL run
